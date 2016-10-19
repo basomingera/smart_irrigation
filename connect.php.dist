@@ -1,0 +1,20 @@
+<?php
+# FileName="connect.php"
+ $serverName = "host";
+ $database="Database name";
+ $userName="User";
+ $passwors="Password";
+ 
+ function FormatErrors(){
+ 	echo "error occure";
+	if( ($errors = mysqli_errors() ) != null)
+		      {
+		         foreach( $errors as $error)
+		         {
+		            echo "SQLSTATE: ".$error[ 'SQLSTATE']."\n";
+		            echo "code: ".$error[ 'code']."\n";
+		            echo "message: ".$error[ 'message']."\n";
+		         }
+		      }
+}
+?>
