@@ -181,6 +181,7 @@ function requestData() {
             verticalAlign: 'middle',
             borderWidth: 0
         },
+        
         <?php 
             include 'chartData.php';
             ?>

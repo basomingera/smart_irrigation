@@ -7,18 +7,33 @@ $pagenum = $_GET['pagenum'];
 $pagesize = $_GET['pagesize'];
 $start = $pagenum * $pagesize;
 
-$conn = sqlsrv_connect($serverName, $connectionOptions) or die (FormatErrors());
-$tsql = "SELECT Id, field ,moisture ,humidity ,temp ,light ,irrigator,moisture2 ,timestamp FROM dbo.sensorData ORDER BY Id DESC OFFSET  $start ROWS FETCH NEXT $pagesize ROWS ONLY ";
 
-$totalRowsQ = sqlsrv_query($conn, "SELECT COUNT(*) AS count FROM dbo.sensorData") or die(FormatErrors());
-$getProducts = sqlsrv_query($conn, $tsql) or die(FormatErrors());
+try {
+    $conn = mysqli_connect($serverName, $userName, $password, $database);
+    echo "Connected successfully"; 
+    }
+catch(Exception $e)
+    {
+    echo "Connection failed: " . $e->getMessage();
+    }
 
-while($row = sqlsrv_fetch_array($totalRowsQ, SQLSRV_FETCH_ASSOC))
-{
-	$totalRows=$row['count'];
-}
+$tsql = "SELECT id, field ,moisture ,humidity ,temp ,light ,irrigator,moisture2 ,fieldTimestamp FROM sensorData ORDER BY id DESC LIMIT ". $pagesize  ." OFFSET ". $start;
+//echo $tsql;
+//$totalRowsQ = mysqli_query($conn, "SELECT COUNT(*) AS count FROM sensorData") or die(FormatErrors());
+
+$getProducts = mysqli_query($conn, $tsql) or die(FormatErrors());
+$totalRowsQ = mysqli_num_rows($getProducts);
+$totalRows=$totalRowsQ;
+// while($row = mysqli_fetch_array($getProducts, MYSQLI_ASSOC))
+// {
+
+// 	$totalRows=mysqli_num_rows($getProducts);
+// 	echo $totalRows;
+// }
+
 $productCount = 0;
-while($row = sqlsrv_fetch_array($getProducts, SQLSRV_FETCH_ASSOC))
+
+while($row = mysqli_fetch_array($getProducts, MYSQLI_ASSOC))
 {
 	$customers[] = array(
 		'id'=>$row['id'],
@@ -29,7 +44,7 @@ while($row = sqlsrv_fetch_array($getProducts, SQLSRV_FETCH_ASSOC))
 		'temp' => $row['temp'],
 		'light' => $row['light'],
 		'irrigator' => $row['irrigator'],
-		'timestamp' => date_format($row['timestamp'],"Y/m/d H:i:s") 
+		'fieldTimestamp' => date_format(date_create($row['fieldTimestamp']),"Y/m/d H:i:s") 
 	);
     $productCount++;
 }
@@ -40,6 +55,6 @@ $data[] = array(
 );
 echo json_encode($data);
 
-sqlsrv_free_stmt($getProducts);
-sqlsrv_close($conn);
+//sqlsrv_free_stmt($getProducts);
+mysqli_close($conn);
 ?>

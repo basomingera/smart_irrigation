@@ -19,18 +19,28 @@ $pagenum = $_GET['pagenum'];
 $pagesize = $_GET['pagesize'];
 $start = $pagenum * $pagesize;
 
-$conn = sqlsrv_connect($serverName, $connectionOptions) or die (FormatErrors());
-$tsql = "SELECT TOP 1 Id, field ,moisture ,humidity ,temp ,light ,irrigator,moisture2 ,timestamp FROM dbo.sensorData ORDER BY Id DESC ";
+try {
+    $conn = mysqli_connect($serverName, $userName, $password, $database);
+    echo "Connected successfully"; 
+    }
+catch(PDOException $e)
+    {
+    echo "Connection failed: " . $e->getMessage();
+    }
 
-$totalRowsQ = sqlsrv_query($conn, "SELECT COUNT(*) AS count FROM dbo.sensorData") or die(FormatErrors());
-$getProducts = sqlsrv_query($conn, $tsql) or die(FormatErrors());
+ $tsql = "SELECT id, field ,moisture ,humidity ,temp ,light ,irrigator,moisture2 ,fieldTimestamp FROM sensorData ORDER BY id DESC Limit 1";
 
-while($row = sqlsrv_fetch_array($totalRowsQ, SQLSRV_FETCH_ASSOC))
-{
-	$totalRows=$row['count'];
-}
+// $totalRowsQ = mysqli_query($conn, "SELECT COUNT(*) AS count FROM sensorData") or die(FormatErrors());
+$getProducts = mysqli_query($conn, $tsql) or die(FormatErrors());
+$totalRowsQ = mysqli_num_rows($getProducts);
+$totalRows=$totalRowsQ;
+
+// while($row = mysqli_fetch_array($totalRowsQ, mysqli_FETCH_ASSOC))
+// {
+// 	$totalRows=$row['count'];
+// }
 $productCount = 0;
-while($row = sqlsrv_fetch_array($getProducts, SQLSRV_FETCH_ASSOC))
+while($row = mysqli_fetch_array($getProducts, MYSQLI_ASSOC))
 {
 	$glM1=(int)trim($row['moisture']);
 	$glM2=(int)trim($row['moisture2']);
@@ -83,8 +93,8 @@ $data = array(
 	'status2'=>getStatus($glM2,"field2")
 );
 
-sqlsrv_free_stmt($getProducts);
-sqlsrv_close($conn);
+//mysqli_free_stmt($getProducts);
+mysqli_close($conn);
 
 //function to determine the status
 function getStatus($value,$type){
