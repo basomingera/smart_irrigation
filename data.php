@@ -12,7 +12,8 @@ $moisture2=$_REQUEST['moisture2'];
 try {
     $conn = mysqli_connect($serverName, $userName, $password, $database);
     echo "Connected successfully"; 
-    }
+	echo "\n$serverName $userName, $password, $database\n";    
+}
 catch(PDOException $e)
     {
     echo "Connection failed: " . $e->getMessage();
@@ -20,8 +21,8 @@ catch(PDOException $e)
 
 $timeStamp= date("Y-m-d H-m-s");
 $tsql = "INSERT INTO sensorData(field,moisture,humidity,temp,light,irrigator,fieldTimestamp,moisture2) VALUES('$field','$moisture','$humidity','$temp','$light','$irrigator','$timeStamp','$moisture2')";
-        //Insert query
-echo $tsql;
+
+echo $tsql;        //Insert query
 $insertReview = mysqli_query($conn, $tsql);// or die(FormatErrors());
 if (mysqli_connect_errno())
   {
