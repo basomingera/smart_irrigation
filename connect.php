@@ -1,10 +1,13 @@
 <?php
 # FileName="connect.php"
- $serverName = "http://172.29.49.228/";
-$connectionOptions = array("Database"=>"smart_irrigation_db","Uid"=>"rob", "PWD"=>"--X+V=-Z6Jp@sY75");
+ $serverName = "localhost";
+ $database="smart_irrigation_db";
+ $userName="rob";
+ $passwors="";
  
  function FormatErrors(){
-	if( ($errors = sqlsrv_errors() ) != null)
+ 	echo "error occure";
+	if( ($errors = mysqli_errors() ) != null)
 		      {
 		         foreach( $errors as $error)
 		         {

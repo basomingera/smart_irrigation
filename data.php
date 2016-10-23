@@ -21,7 +21,12 @@ catch(PDOException $e)
 $timeStamp= date("Y-m-d h-m-s");
 $tsql = "INSERT INTO sensorData(field,moisture,humidity,temp,light,irrigator,fieldTimestamp,moisture2) VALUES('$field','$moisture','$humidity','$temp','$light','$irrigator','$timeStamp','$moisture2')";
         //Insert query
-$insertReview = mysqli_query($conn, $tsql) or die(FormatErrors());
+$insertReview = mysqli_query($conn, $tsql);// or die(FormatErrors());
+if (mysqli_connect_errno())
+  {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  }
+
 echo 'OK';	
  mysqli_close($conn);
 
