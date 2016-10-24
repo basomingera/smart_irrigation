@@ -10,7 +10,7 @@ include ('connect.php');
 
 try {
     $conn = mysqli_connect($serverName, $userName, $password, $database);
-    echo "Connected successfully"; 
+    //echo "Connected successfully"; 
     }
 catch(EXCEPTION $e)
     {
