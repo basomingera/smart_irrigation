@@ -21,7 +21,7 @@ $start = $pagenum * $pagesize;
 
 try {
     $conn = mysqli_connect($serverName, $userName, $password, $database);
-    echo "Connected successfully"; 
+    //echo "Connected successfully"; 
     }
 catch(PDOException $e)
     {
@@ -29,9 +29,9 @@ catch(PDOException $e)
     }
 
  $tsql = "SELECT id, field ,moisture ,humidity ,temp ,light ,irrigator,moisture2 ,fieldTimestamp FROM sensorData ORDER BY id DESC Limit 1";
-
+//echo $tsql;
 // $totalRowsQ = mysqli_query($conn, "SELECT COUNT(*) AS count FROM sensorData") or die(FormatErrors());
-$getProducts = mysqli_query($conn, $tsql) or die(FormatErrors());
+$getProducts = mysqli_query($conn, $tsql);// or die(FormatErrors());
 $totalRowsQ = mysqli_num_rows($getProducts);
 $totalRows=$totalRowsQ;
 
