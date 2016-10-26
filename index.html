@@ -138,7 +138,7 @@
                  datafields: [
 
                      { name: 'moisture', type: 'string'},
-                     { name: 'timestamp', type: 'date',format: "yyyy-MM-ddTHH:mm"},
+                     { name: 'fieldTimestamp', type: 'date',format: "yyyy-MM-ddTHH:mm"},
                      { name: 'humidity', type: 'string'},
                      { name: 'moisture2', type: 'string'},
                      { name: 'light', type: 'string'},
@@ -180,7 +180,7 @@
 				},
 				columns: [
 
-                      { text: 'Timestamp', datafield: 'timestamp',cellsformat: 'dd.MM.yyyy \'at\' HH:mm:ss' },
+                      { text: 'Timestamp', datafield: 'fieldTimestamp',cellsformat: 'dd.MM.yyyy \'at\' HH:mm:ss' },
                       { text: 'Field', datafield: 'field', width: 100 },
 				      { text: 'Moisture', datafield: 'moisture', width: 100 },
                       { text: 'Moisture2', datafield: 'moisture2', width: 100 },
